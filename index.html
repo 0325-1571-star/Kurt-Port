@@ -192,7 +192,11 @@ button.copy:hover { background: var(--accent); color: var(--accent-ink); }
 .cc { background: var(--surface); border: 1px dashed var(--line); border-radius: 12px; padding: 22px 16px; display: grid; gap: 6px; justify-items: center; text-align: center; min-width: 0; }
 .cc .ico { width: 44px; height: 44px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 800; color: var(--accent); }
 .cc b { font-family: var(--display); font-size: 1.05rem; }
-.cc span { color: var(--muted); font-size: 0.88rem; }
+.cc span { color: var(--muted); font-size: 0.88rem; overflow-wrap: anywhere; }
+a.cc { text-decoration: none; color: inherit; }
+a.cc:hover { border-color: var(--accent); border-style: solid; }
+.cc .go { font-family: var(--mono); font-size: 12px; color: var(--accent); }
+.cc button.copy { margin-top: 4px; }
 
 footer { margin-top: 72px; border-top: 1px solid var(--line); padding-top: 28px; display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr); gap: 28px; }
 @media (max-width: 700px) { footer { grid-template-columns: minmax(0, 1fr); } }
@@ -314,12 +318,12 @@ footer .links button:hover { color: var(--ink); }
   </section>
 
   <section id="contact" class="block">
-    <div class="title"><h2>Contact me</h2><span class="bar"></span><p>Message me on any of these to start a paid trial week.</p></div>
+    <div class="title"><h2>Contact me</h2><span class="bar"></span><p>Message me on LinkedIn or Facebook, or send an email, to start a paid trial week.</p></div>
     <div class="contact">
-      <div class="cc"><div class="ico">@</div><b>Email</b><span>Add your email</span></div>
-      <div class="cc"><div class="ico">f</div><b>Facebook</b><span>Add your profile link</span></div>
-      <div class="cc"><div class="ico">OJ</div><b>OnlineJobs.ph</b><span>Add your profile link</span></div>
-      <div class="cc"><div class="ico">#</div><b>Phone</b><span>Add your number</span></div>
+      <div class="cc"><div class="ico">@</div><b>Email</b><span>kurtchristianomega051207@gmail.com</span><button class="copy" type="button" data-copytext="kurtchristianomega051207@gmail.com">Copy</button></div>
+      <a class="cc" href="https://www.linkedin.com/in/kurt-christian-omega-6554b1425/" target="_blank" rel="noopener"><div class="ico">in</div><b>LinkedIn</b><span>Kurt Christian Omega</span><span class="go">Open profile</span></a>
+      <a class="cc" href="https://www.facebook.com/kurt.christian.d.omega.2024/" target="_blank" rel="noopener"><div class="ico">f</div><b>Facebook</b><span>Kurt Christian D. Omega</span><span class="go">Open profile</span></a>
+      <div class="cc"><div class="ico">#</div><b>Phone</b><span>09613604163</span><button class="copy" type="button" data-copytext="09613604163">Copy</button></div>
     </div>
   </section>
 
@@ -453,6 +457,21 @@ footer .links button:hover { color: var(--ink); }
       body.appendChild(t.content.cloneNode(true));
       wireCopy(body);
       try { dlg.showModal(); } catch (e) { dlg.setAttribute('open', ''); }
+    });
+  });
+  document.querySelectorAll('button[data-copytext]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var text = btn.getAttribute('data-copytext');
+      function done() { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy'; }, 1500); }
+      function fallback() {
+        try {
+          var r = document.createRange(); r.selectNodeContents(btn.previousElementSibling);
+          var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+          btn.textContent = 'Selected';
+          setTimeout(function () { btn.textContent = 'Copy'; }, 1500);
+        } catch (e) {}
+      }
+      try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
     });
   });
   function close() { try { dlg.close(); } catch (e) { dlg.removeAttribute('open'); } }
